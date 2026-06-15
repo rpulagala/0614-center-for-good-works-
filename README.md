@@ -2,12 +2,28 @@
 
 Static single-page website for the Center for Good Works retreat and event space in Kankakee, Illinois.
 
-## Files
+**Live site:** https://rpulagala.github.io/0614-center-for-good-works-/  
+**GitHub repo:** https://github.com/rpulagala/0614-center-for-good-works-
+
+---
+
+## Stack
+
+Plain HTML/CSS/JS — no build step, no dependencies, no framework.  
+Hosted on GitHub Pages from the `main` branch root.
+
+---
+
+## File Structure
 
 ```
-index.html          Main website (single page)
-images/             Photos used throughout the site
-  sUNSET.jpg
+index.html              Single-page website
+README.md               This file
+CLAUDE.md               AI assistant context and guidelines
+package.json            Dev tooling only (Playwright)
+check-mobile.js         Playwright mobile audit script
+images/
+  sUNSET.jpg            Hero background
   River View Great Room.jpg
   Canoeing.jpeg
   AV & Rob Woodworking.jpg
@@ -20,24 +36,51 @@ images/             Photos used throughout the site
   Bike Trail.jpg
   On the trail 1.jpg
   River Trail.jpg
-  FireTable.jpg
   Fire.jpg
   Learn & Grow.jpg
   totum pole.jpg
   Painting.JPG
 ```
 
-## Sections
+---
 
-1. **Hero** — Full-screen sunset photo, title, and dual CTAs
-2. **Welcome** — About the space and MKP heritage
-3. **Experience** — Three pillars: Relax, Learn & Grow, Fun Activities
-4. **Journey** — Six-step arc from arrival to departure
-5. **Spaces** — Gathering Room, River View Great Room, Kitchen, Bedrooms
-6. **Activities** — Area amenities (archery, canoeing, biking, etc.)
-7. **Getting Here** — Drive times and shuttle/Amtrak info
-8. **Host a Retreat** — Packages and what's included
-9. **Contact** — Inquiry form and contact details
+## Page Sections
+
+| # | Section | Description |
+|---|---|---|
+| 1 | Hero | Full-screen sunset photo, title, tagline, dual CTAs |
+| 2 | Welcome | About the space, MKP heritage, location pills |
+| 3 | Experience | Three image pillars: Relax / Learn & Grow / Activities |
+| 4 | Journey | Six-step arc from arrival to departure |
+| 5 | Spaces | Gathering Room, River View Great Room, Kitchen, Bedrooms |
+| 6 | Activities | Area amenities list with mosaic images |
+| 7 | Getting Here | Drive times, Amtrak, shuttle bus info |
+| 8 | Host a Retreat | Packages, offerings grid, curated features |
+| 9 | Contact | Inquiry form + email/phone/location |
+
+---
+
+## Design Decisions
+
+- **Base font size: 20px** — set on `html {}` so all `rem` values scale from it. Intentionally larger than default (16px) for 60+ audience readability.
+- **Color palette:** forest green `#2D5016`, warm earth `#7A5230`, gold `#C8A45A`, cream `#FAF8F5`
+- **Mobile breakpoints:** 800px (tablet/mobile) and 520px (small phone)
+- **Scroll reveal:** `IntersectionObserver` animates elements into view as the user scrolls
+- **Ken Burns hero:** hero background starts at `scale(1)` and zooms to `scale(1.04)` on load — starts normal size to avoid overflow on small screens
+
+---
+
+## Mobile Testing
+
+Uses Playwright with Chromium. Run the audit script:
+
+```bash
+node check-mobile.js
+```
+
+Tested devices: iPhone SE (375px), iPhone 14 (390px), Android (360px).
+
+---
 
 ## Contact
 
@@ -45,10 +88,14 @@ images/             Photos used throughout the site
 - Phone: (847) 877-5066
 - Web: AvBbRetreats.com
 
+---
+
 ## Deployment
 
-The site is a plain HTML/CSS/JS file — no build step needed. To publish:
+Push to `main` — GitHub Pages publishes automatically from the repo root.
 
-- **GitHub Pages**: push the repo and enable Pages from the root of `main`
-- **Netlify / Vercel**: drag the project folder into the dashboard
-- **Any static host**: upload `index.html` and the `images/` folder together
+```bash
+git add .
+git commit -m "your message"
+git push
+```
