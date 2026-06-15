@@ -82,14 +82,6 @@ Tested devices: iPhone SE (375px), iPhone 14 (390px), Android (360px).
 
 ---
 
-## Contact
-
-- Email: AvBbRetreats@gmail.com
-- Phone: (847) 877-5066
-- Web: AvBbRetreats.com
-
----
-
 ## Deployment
 
 Push to `main` — GitHub Pages publishes automatically from the repo root.
