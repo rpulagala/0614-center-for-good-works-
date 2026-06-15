@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Center for Good Works — Kankakee, Illinois</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:       #2D5016;
+      --forest-light: #4A7A28;
+      --earth:        #7A5230;
+      --river:        #2E6B8A;
+      --gold:         #C8A45A;
+      --cream:        #FAF8F5;
+      --warm-white:   #F3EDE3;
+      --charcoal:     #242424;
+      --text:         #3A3A3A;
+      --text-light:   #666;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: var(--text);
+      background: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVIGATION ─────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(30, 54, 12, 0.92);
+      backdrop-filter: blur(12px);
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(30, 54, 12, 0.98);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.25);
+    }
+    .nav-logo {
+      color: #fff;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2.25rem;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: #fff;
+      transition: all 0.3s;
+      display: block;
+    }
+
+    /* ─── HERO ───────────────────────────────────── */
+    #hero {
+      height: 100vh;
+      min-height: 580px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/sUNSET.jpg') center/cover no-repeat;
+      transform: scale(1.06);
+      transition: transform 10s ease-out;
+    }
+    #hero.loaded .hero-bg { transform: scale(1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(15,35,5,0.45) 0%,
+        rgba(15,35,5,0.30) 45%,
+        rgba(15,35,5,0.70) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      padding: 2rem;
+      max-width: 860px;
+    }
+    .hero-eyebrow {
+      font-family: Arial, sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.3s ease forwards;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: normal;
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.55s ease forwards;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 2.75rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s ease forwards;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.05s ease forwards;
+    }
+    .btn-primary {
+      background: var(--forest);
+      color: #fff;
+      padding: 0.95rem 2.25rem;
+      border: 2px solid var(--forest);
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .btn-primary:hover { background: var(--forest-light); border-color: var(--forest-light); }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      padding: 0.95rem 2.25rem;
+      border: 2px solid rgba(255,255,255,0.65);
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.4s ease forwards;
+    }
+    .hero-scroll-hint span {
+      font-family: Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 42px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.55), transparent);
+      animation: pulseDown 2s ease-in-out infinite;
+    }
+
+    /* ─── SHARED SECTION STYLES ──────────────────── */
+    section { padding: 6rem 2rem; }
+    .section-inner { max-width: 1120px; margin: 0 auto; }
+    .eyebrow {
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--forest-light);
+      margin-bottom: 1rem;
+    }
+    .eyebrow-light { color: var(--gold); }
+    h2.section-title {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: normal;
+      line-height: 1.2;
+      color: var(--charcoal);
+      margin-bottom: 1.25rem;
+    }
+    h2.title-light { color: #fff; }
+    .body-text {
+      font-size: 1.08rem;
+      line-height: 1.85;
+      color: var(--text-light);
+    }
+    .body-text-light { color: rgba(255,255,255,0.75); }
+    .gold-bar {
+      width: 56px; height: 3px;
+      background: var(--gold);
+      margin: 1.5rem 0;
+    }
+    .gold-bar-center { margin-left: auto; margin-right: auto; }
+
+    /* ─── ABOUT ──────────────────────────────────── */
+    #about { background: var(--warm-white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      display: block;
+    }
+    .about-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: -18px; left: -18px;
+      width: 100%; height: 100%;
+      border: 2px solid var(--gold);
+      pointer-events: none;
+    }
+    .location-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+    .pill {
+      background: var(--forest);
+      color: #fff;
+      padding: 0.4rem 1.1rem;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── EXPERIENCE / THREE PILLARS ─────────────── */
+    #experience { background: var(--charcoal); padding-bottom: 0; }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      margin-top: 4rem;
+    }
+    .pillar {
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+    }
+    .pillar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .pillar:hover img { transform: scale(1.06); }
+    .pillar-veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.08) 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2.25rem 2rem;
+    }
+    .pillar-num {
+      font-family: Arial, sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .pillar-title {
+      font-size: 1.55rem;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+    .pillar-desc {
+      font-family: Arial, sans-serif;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.78);
+    }
+
+    /* ─── JOURNEY ────────────────────────────────── */
+    #journey { background: var(--cream); }
+    .journey-header { text-align: center; margin-bottom: 5rem; }
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem 2.5rem;
+    }
+    .journey-step { text-align: center; }
+    .step-circle {
+      width: 58px; height: 58px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-family: Arial, sans-serif;
+      font-size: 1.15rem;
+      color: var(--forest);
+    }
+    .step-title {
+      font-size: 1.25rem;
+      color: var(--charcoal);
+      margin-bottom: 0.75rem;
+    }
+    .step-desc {
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.72;
+      color: var(--text-light);
+    }
+
+    /* ─── SPACES ─────────────────────────────────── */
+    #spaces { background: var(--forest); }
+    .spaces-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+      margin-top: 4rem;
+    }
+    .space-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      overflow: hidden;
+      transition: transform 0.35s, background 0.35s;
+    }
+    .space-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.12);
+    }
+    .space-card img {
+      width: 100%; height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+    .space-body { padding: 1.75rem; }
+    .space-title {
+      font-size: 1.25rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .space-list {
+      list-style: none;
+      font-family: Arial, sans-serif;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 2.1;
+    }
+    .space-list li::before { content: '— '; color: var(--gold); }
+
+    /* ─── ACTIVITIES ─────────────────────────────── */
+    #activities { background: var(--warm-white); }
+    .activities-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .img-mosaic {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0.75rem;
+      height: 500px;
+    }
+    .img-mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-mosaic img:first-child { grid-row: span 2; }
+    .amenities {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem 2rem;
+      margin-top: 2rem;
+    }
+    .amenities li {
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .amenities li::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--forest-light);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── LOCATION / GETTING HERE ────────────────── */
+    #location { background: var(--earth); }
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .distances { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 2rem; }
+    .dist-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+    }
+    .dist-time {
+      font-family: Arial, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 76px;
+    }
+    .dist-label {
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.82);
+    }
+    .shuttle-box {
+      margin-top: 2rem;
+      padding: 1.1rem 1.5rem;
+      background: rgba(255,255,255,0.1);
+      border-left: 3px solid var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.88);
+    }
+    .loc-img img { width: 100%; height: 460px; object-fit: cover; display: block; }
+
+    /* ─── HOST ───────────────────────────────────── */
+    #host { background: var(--cream); }
+    .host-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .offerings {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+    .offer-item {
+      padding: 1rem 1.25rem;
+      background: var(--warm-white);
+      border-left: 3px solid var(--forest-light);
+      font-family: Arial, sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .curated-box {
+      margin-top: 2rem;
+      padding: 1.4rem 1.6rem;
+      background: rgba(45,80,22,0.07);
+      border: 1px solid rgba(45,80,22,0.2);
+      font-family: Arial, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: var(--text);
+    }
+    .host-img-stack {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 0.75rem;
+      height: 560px;
+    }
+    .host-img-stack img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ─── CONTACT ────────────────────────────────── */
+    #contact { background: var(--charcoal); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 4rem;
+    }
+    .c-info { display: flex; flex-direction: column; gap: 2.25rem; }
+    .c-item h4 {
+      font-family: Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .c-item p, .c-item a {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      line-height: 1.6;
+    }
+    .c-item a:hover { color: var(--gold); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.45rem; }
+    .form-group label {
+      font-family: Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      padding: 0.85rem 1rem;
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.28); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group select option { background: #2a2a2a; }
+    .form-group textarea { height: 130px; resize: vertical; }
+    .btn-submit {
+      align-self: flex-start;
+      background: var(--forest);
+      color: #fff;
+      padding: 1rem 2.5rem;
+      border: none;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .btn-submit:hover { background: var(--forest-light); }
+    .btn-submit:disabled { background: var(--forest-light); cursor: default; }
+
+    /* ─── QUOTE BAND ─────────────────────────────── */
+    .quote-band {
+      background: var(--forest);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .quote-band blockquote {
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.92);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .quote-band cite {
+      display: block;
+      margin-top: 1.5rem;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────── */
+    footer {
+      background: #161616;
+      color: rgba(255,255,255,0.5);
+      padding: 3.5rem 2rem;
+      text-align: center;
+    }
+    .footer-inner { max-width: 1120px; margin: 0 auto; }
+    .footer-logo { font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem; }
+    .footer-tagline { font-style: italic; color: var(--gold); font-size: 0.95rem; margin-bottom: 2.25rem; }
+    .footer-nav {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .footer-nav a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--gold); }
+    .footer-copy {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 2rem;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.9;
+    }
+    .footer-copy a { color: var(--gold); text-decoration: none; }
+    .footer-copy a:hover { text-decoration: underline; }
+
+    /* ─── ANIMATIONS ─────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseDown {
+      0%,100% { opacity: 0.4; transform: scaleY(0.7) translateY(0); }
+      50%      { opacity: 1;   transform: scaleY(1)   translateY(4px); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── MOBILE ─────────────────────────────────── */
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 66px; left: 0; right: 0;
+        background: rgba(30,54,12,0.98);
+        padding: 2rem 2.5rem;
+        gap: 1.75rem;
+      }
+      .hamburger { display: flex; }
+
+      .about-grid,
+      .activities-grid,
+      .location-grid,
+      .host-grid,
+      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .pillars-grid { grid-template-columns: 1fr; }
+      .pillar { height: 360px; }
+      .journey-grid { grid-template-columns: 1fr 1fr; }
+      .spaces-grid { grid-template-columns: 1fr; }
+      .img-mosaic { height: 320px; }
+      .host-img-stack { height: 320px; }
+      .form-row { grid-template-columns: 1fr; }
+      .about-img-wrap::before { display: none; }
+      section { padding: 4rem 1.25rem; }
+    }
+    @media (max-width: 520px) {
+      .journey-grid { grid-template-columns: 1fr; }
+      .offerings { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ─────────────────────────────────── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Center for Good Works</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">Welcome</a></li>
+    <li><a href="#spaces">Spaces</a></li>
+    <li><a href="#activities">Activities</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#host">Host a Retreat</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Kankakee, Illinois &nbsp;·&nbsp; Along the River</p>
+    <h1 class="hero-title">Center for Good Works</h1>
+    <p class="hero-subtitle">A wonderful setting for events, workshops, and retreats —<br>nestled in a park-like setting along the Kankakee River.</p>
+    <div class="hero-ctas">
+      <a href="#host" class="btn-primary">Host Your Retreat Here</a>
+      <a href="#about" class="btn-outline">Explore the Space</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Discover</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── WELCOME / ABOUT ────────────────────────────── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img src="images/River%20View%20Great%20Room.jpg" alt="River View Great Room with park and river views">
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p class="eyebrow">Welcome</p>
+        <h2 class="section-title">A Place to Gather, Create & Grow</h2>
+        <div class="gold-bar"></div>
+        <p class="body-text">
+          Our location offers a park-like setting with sweeping views and direct access to the Kankakee River. The River View Great Room houses many treasured touchstones from MKP's origins — including the MKP Altar, talking sticks, and Day 1 Year 1 artifacts.
+        </p>
+        <p class="body-text" style="margin-top: 1.25rem;">
+          We are just 5 minutes from thriving, artsy downtown Kankakee, Illinois — a friendly, accommodating, and welcoming community. Bring your group and enjoy a setting designed for meaningful experiences.
+        </p>
+        <div class="location-pills">
+          <span class="pill">75 min from Chicago</span>
+          <span class="pill">75 min from Champaign</span>
+          <span class="pill">75 min from Bloomington</span>
+          <span class="pill">5 min from Amtrak</span>
+          <span class="pill">Kankakee River Access</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE / THREE PILLARS ─────────────────── -->
+<section id="experience" style="padding-bottom:0;">
+  <div class="section-inner">
+    <p class="eyebrow eyebrow-light reveal">The Experience</p>
+    <h2 class="section-title title-light reveal reveal-delay-1">Everything You Need to Thrive</h2>
+    <p class="body-text body-text-light reveal reveal-delay-2" style="max-width:620px;">
+      Step away from the ordinary. At Center for Good Works, every moment holds the possibility of connection, discovery, and renewal.
+    </p>
+  </div>
+  <div class="pillars-grid" style="margin-top:4rem;">
+    <div class="pillar reveal">
+      <img src="images/Canoeing.jpeg" alt="Canoeing on the Kankakee River">
+      <div class="pillar-veil">
+        <span class="pillar-num">01</span>
+        <h3 class="pillar-title">Relax & Enjoy Nature</h3>
+        <p class="pillar-desc">Canoe the river, hike riverside trails, breathe in the quiet of the natural world. Let the pace slow on its own.</p>
+      </div>
+    </div>
+    <div class="pillar reveal reveal-delay-1">
+      <img src="images/AV%20%26%20Rob%20Woodworking.jpg" alt="Hands-on learning and growth">
+      <div class="pillar-veil">
+        <span class="pillar-num">02</span>
+        <h3 class="pillar-title">Learn & Grow</h3>
+        <p class="pillar-desc">Workshops, circles, woodworking, painting, music — hands-on experiences that deepen skills and open hearts.</p>
+      </div>
+    </div>
+    <div class="pillar reveal reveal-delay-2">
+      <img src="images/Sarina%20Archery%202.jpg" alt="Archery and outdoor activities">
+      <div class="pillar-veil">
+        <span class="pillar-num">03</span>
+        <h3 class="pillar-title">Enjoy Fun Activities</h3>
+        <p class="pillar-desc">Archery, birding, fishing, biking, hiking — there is something here for every curious, adventurous soul.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── JOURNEY ─────────────────────────────────────── -->
+<section id="journey">
+  <div class="section-inner">
+    <div class="journey-header">
+      <p class="eyebrow reveal">Your Time Here</p>
+      <h2 class="section-title reveal reveal-delay-1">The Journey Unfolds</h2>
+      <div class="gold-bar gold-bar-center reveal"></div>
+      <p class="body-text reveal reveal-delay-2" style="max-width:600px; margin:0 auto; text-align:center;">
+        From arrival to departure, every part of your stay is held with care and intention — woven into a story your group will carry home.
+      </p>
+    </div>
+    <div class="journey-grid">
+      <div class="journey-step reveal">
+        <div class="step-circle">1</div>
+        <h3 class="step-title">Arrive</h3>
+        <p class="step-desc">Leave the highway behind. As you pull into the park-like grounds along the river, the pace shifts. Trees, water, and quiet welcome you before the door even opens.</p>
+      </div>
+      <div class="journey-step reveal reveal-delay-1">
+        <div class="step-circle">2</div>
+        <h3 class="step-title">Gather</h3>
+        <p class="step-desc">Come together in the River View Great Room or the Gathering Room — spaces designed not just for meetings, but for the kind of connection that happens when people feel held.</p>
+      </div>
+      <div class="journey-step reveal reveal-delay-2">
+        <div class="step-circle">3</div>
+        <h3 class="step-title">Create & Learn</h3>
+        <p class="step-desc">Workshops, hands-on crafts, storytelling, music. The Music Room and open grounds invite expression, discovery, and the satisfaction of making something together.</p>
+      </div>
+      <div class="journey-step reveal">
+        <div class="step-circle">4</div>
+        <h3 class="step-title">Explore</h3>
+        <p class="step-desc">Canoe, hike, bike, cast a line, or simply walk the Kankakee River trail. The natural world here is a living classroom — and a place to simply breathe.</p>
+      </div>
+      <div class="journey-step reveal reveal-delay-1">
+        <div class="step-circle">5</div>
+        <h3 class="step-title">Share a Meal</h3>
+        <p class="step-desc">Gather around the table for food curated to your group — gourmet, ethnic, vegan, gluten free. Or fire up the grill as the fire table glows in the evening air.</p>
+      </div>
+      <div class="journey-step reveal reveal-delay-2">
+        <div class="step-circle">6</div>
+        <h3 class="step-title">Leave Renewed</h3>
+        <p class="step-desc">What you carry out is different from what you brought in. A clearer mind. New friendships. A deeper sense of what's possible when people gather with intention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPACES ──────────────────────────────────────── -->
+<section id="spaces">
+  <div class="section-inner">
+    <p class="eyebrow eyebrow-light reveal">Our Spaces</p>
+    <h2 class="section-title title-light reveal reveal-delay-1">Every Room, a Different Kind of Home</h2>
+    <div class="gold-bar reveal"></div>
+    <div class="spaces-grid">
+      <div class="space-card reveal">
+        <img src="images/Gathering%20Room.jpeg" alt="First Floor Gathering Room">
+        <div class="space-body">
+          <h3 class="space-title">First Floor Gathering Room</h3>
+          <ul class="space-list">
+            <li>Large music &amp; activity room with DJ/VJ equipment</li>
+            <li>Microphones &amp; speakers</li>
+            <li>Adjacent bathroom</li>
+            <li>Pass-through to fully stocked kitchen</li>
+            <li>Coffee, breakfast setup &amp; microwave</li>
+          </ul>
+        </div>
+      </div>
+      <div class="space-card reveal reveal-delay-1">
+        <img src="images/Gathering%20to%20Staircase.jpeg" alt="River View Great Room">
+        <div class="space-body">
+          <h3 class="space-title">River View Great Room</h3>
+          <ul class="space-list">
+            <li>Grand view of park &amp; Kankakee River</li>
+            <li>Fireplace, sink, fridge &amp; dishwasher</li>
+            <li>MKP "Pit" carpet, altar &amp; talking sticks</li>
+            <li>Day 1 / Year 1 MKP artifacts on display</li>
+            <li>Projector &amp; sound system</li>
+          </ul>
+        </div>
+      </div>
+      <div class="space-card reveal">
+        <img src="images/Kitchen.jpeg" alt="Fully Stocked Kitchen">
+        <div class="space-body">
+          <h3 class="space-title">Fully Stocked Kitchen</h3>
+          <ul class="space-list">
+            <li>Full kitchen setup for your group</li>
+            <li>Curated meals to your specifications</li>
+            <li>Gourmet, ethnic, vegan &amp; gluten free options</li>
+            <li>Cook-out grills &amp; fire table on-site</li>
+          </ul>
+        </div>
+      </div>
+      <div class="space-card reveal reveal-delay-1">
+        <img src="images/Dining.jpg" alt="Dining and community gathering">
+        <div class="space-body">
+          <h3 class="space-title">Guest Bedrooms &amp; Overflow</h3>
+          <ul class="space-list">
+            <li>East Bedroom: queen bed, rollaway, mini-fridge, TV, work station &amp; library</li>
+            <li>North Bedroom: full bed, sleeper sofa, 11&prime; closet &amp; desk</li>
+            <li>River House location available (1 door downriver)</li>
+            <li>On-site park grounds for camping</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ACTIVITIES ──────────────────────────────────── -->
+<section id="activities">
+  <div class="section-inner">
+    <div class="activities-grid">
+      <div class="img-mosaic reveal">
+        <img src="images/Bob%20n%20Pia%20Hike.jpg" alt="Hiking along the Kankakee River">
+        <img src="images/Bike%20Trail.jpg" alt="Biking trails near Kankakee">
+        <img src="images/On%20the%20trail%201.jpg" alt="Scenic trail walk">
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p class="eyebrow">Beyond the Walls</p>
+        <h2 class="section-title">Area Amenities &amp; Adventures</h2>
+        <div class="gold-bar"></div>
+        <p class="body-text">The Kankakee area offers an exceptional range of outdoor and recreational experiences just minutes from our door.</p>
+        <ul class="amenities">
+          <li>Horseback Riding</li>
+          <li>Archery</li>
+          <li>Birding</li>
+          <li>Fishing &amp; Fly-Fishing</li>
+          <li>Canoeing &amp; Kayaking</li>
+          <li>Biking &amp; Hiking Trails</li>
+          <li>Golf Courses</li>
+          <li>Water Parks</li>
+        </ul>
+        <p class="body-text" style="margin-top:2rem;">
+          Also 5 minutes from thriving, artsy <strong>downtown Kankakee</strong> — restaurants, galleries, shops, and a deeply welcoming community.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE BAND ──────────────────────────────────── -->
+<div class="quote-band">
+  <blockquote class="reveal">
+    "A friendly, accommodating &amp; welcoming community — and the perfect setting to do the work that matters."
+  </blockquote>
+  <cite class="reveal reveal-delay-1">Center for Good Works &nbsp;·&nbsp; Kankakee, Illinois</cite>
+</div>
+
+<!-- ── GETTING HERE ────────────────────────────────── -->
+<section id="location">
+  <div class="section-inner">
+    <div class="location-grid">
+      <div class="reveal">
+        <p class="eyebrow" style="color:rgba(255,255,255,0.65);">Getting Here</p>
+        <h2 class="section-title title-light">Closer Than You Think</h2>
+        <div class="gold-bar" style="background:rgba(255,255,255,0.35);"></div>
+        <div class="distances">
+          <div class="dist-row">
+            <span class="dist-time">75 min</span>
+            <span class="dist-label">by car from Chicago</span>
+          </div>
+          <div class="dist-row">
+            <span class="dist-time">75 min</span>
+            <span class="dist-label">from Champaign</span>
+          </div>
+          <div class="dist-row">
+            <span class="dist-time">75 min</span>
+            <span class="dist-label">from Bloomington</span>
+          </div>
+          <div class="dist-row">
+            <span class="dist-time">15 min</span>
+            <span class="dist-label">from Bourbonnais</span>
+          </div>
+          <div class="dist-row">
+            <span class="dist-time">5 min</span>
+            <span class="dist-label">from Kankakee Amtrak Station</span>
+          </div>
+        </div>
+        <div class="shuttle-box">
+          <strong>No car? No problem.</strong> A <strong>$2 shuttle bus</strong> runs between Kankakee and Midway (CTA). The Amtrak station is just 5 minutes away — hop on the train and we'll meet you here.
+        </div>
+      </div>
+      <div class="loc-img reveal reveal-delay-1">
+        <img src="images/River%20Trail.jpg" alt="Scenic Kankakee River trail">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOST A RETREAT ──────────────────────────────── -->
+<section id="host">
+  <div class="section-inner">
+    <div class="host-grid">
+      <div class="reveal">
+        <p class="eyebrow">Host a Retreat</p>
+        <h2 class="section-title">Design Your Own Personal Package</h2>
+        <div class="gold-bar"></div>
+        <p class="body-text">
+          Contact us to craft an experience that fits your group perfectly — from a single-day workshop to a multi-day retreat with curated meals, outdoor activities, and overnight accommodations.
+        </p>
+        <div class="offerings">
+          <div class="offer-item">Meeting Rooms</div>
+          <div class="offer-item">Overnight Guest Rooms</div>
+          <div class="offer-item">Workshops</div>
+          <div class="offer-item">Curated Packages</div>
+          <div class="offer-item">Fully Stocked Kitchen</div>
+          <div class="offer-item">Cook-Out Grills</div>
+          <div class="offer-item">Fire-Pits &amp; Fire Table</div>
+          <div class="offer-item">Music Room</div>
+          <div class="offer-item">Additional Adj. Locations</div>
+        </div>
+        <div class="curated-box">
+          <strong>Curated Features Available:</strong> Rooms set up with personalized welcome headers. Snacks to full meals crafted to your specifications — gourmet, ethnic, vegan, gluten free, and beyond.
+        </div>
+      </div>
+      <div class="host-img-stack reveal reveal-delay-1">
+        <img src="images/FireTable.jpg" alt="Evening around the fire table">
+        <img src="images/Fire.jpg" alt="Fire gathering at Center for Good Works">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ─────────────────────────────────────── -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="eyebrow eyebrow-light reveal">Get in Touch</p>
+    <h2 class="section-title title-light reveal reveal-delay-1">Ready to Begin?</h2>
+    <p class="body-text body-text-light reveal reveal-delay-2">
+      Tell us about your group and vision — we'll help you design an experience that fits.
+    </p>
+    <div class="contact-layout">
+      <div class="c-info reveal">
+        <div class="c-item">
+          <h4>Email</h4>
+          <a href="mailto:AvBbRetreats@gmail.com">AvBbRetreats@gmail.com</a>
+        </div>
+        <div class="c-item">
+          <h4>Phone</h4>
+          <a href="tel:+18478775066">(847) 877-5066</a>
+        </div>
+        <div class="c-item">
+          <h4>Location</h4>
+          <p>Kankakee, Illinois<br>Along the Kankakee River<br>5 minutes from the Amtrak Station</p>
+        </div>
+        <div class="c-item">
+          <h4>More Photos</h4>
+          <a href="https://AvBbRetreats.com" target="_blank" rel="noopener noreferrer">AvBbRetreats.com</a>
+        </div>
+      </div>
+      <form class="contact-form reveal reveal-delay-1" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">Your Name</label>
+            <input type="text" id="fname" name="name" placeholder="Full Name" required>
+          </div>
+          <div class="form-group">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" name="email" placeholder="you@email.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="forg">Organization / Group</label>
+          <input type="text" id="forg" name="organization" placeholder="Your group or organization name">
+        </div>
+        <div class="form-group">
+          <label for="ftype">Type of Event</label>
+          <select id="ftype" name="retreat_type">
+            <option value="">Select a type...</option>
+            <option>Men's Retreat</option>
+            <option>Women's Retreat</option>
+            <option>Workshop / Training</option>
+            <option>Spiritual / Meditation Retreat</option>
+            <option>Team Building</option>
+            <option>Leadership Retreat</option>
+            <option>Family Gathering</option>
+            <option>Community Event</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fdates">Preferred Dates</label>
+          <input type="text" id="fdates" name="dates" placeholder="e.g. Weekend of July 12–13, or flexible">
+        </div>
+        <div class="form-group">
+          <label for="fmsg">Tell Us About Your Vision</label>
+          <textarea id="fmsg" name="message" placeholder="Describe your group size, goals, and what would make this experience meaningful..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Send Your Inquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Center for Good Works</div>
+    <p class="footer-tagline">A wonderful setting for events, workshops &amp; retreats — Kankakee, Illinois</p>
+    <ul class="footer-nav">
+      <li><a href="#about">Welcome</a></li>
+      <li><a href="#spaces">Spaces</a></li>
+      <li><a href="#activities">Activities</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#host">Host a Retreat</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="footer-copy">
+      <p>
+        <a href="mailto:AvBbRetreats@gmail.com">AvBbRetreats@gmail.com</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="tel:+18478775066">(847) 877-5066</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="https://AvBbRetreats.com" target="_blank" rel="noopener noreferrer">AvBbRetreats.com</a>
+      </p>
+      <p style="margin-top:1rem; color:rgba(255,255,255,0.3);">
+        &copy; 2025 Center for Good Works. Not affiliated with any external organization.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Trigger hero ken-burns zoom
+  document.getElementById('hero').classList.add('loaded');
+
+  // Mobile hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Contact form
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sent! We\'ll be in touch soon.';
+    btn.style.background = '#4A7A28';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Send Your Inquiry';
+      btn.style.background = '';
+      btn.disabled = false;
+      this.reset();
+    }, 5000);
+  });
+</script>
+</body>
+</html>
