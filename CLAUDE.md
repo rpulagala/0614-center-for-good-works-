@@ -114,9 +114,6 @@ To take section-by-section screenshots for visual review, update `check-mobile.j
 
 ---
 
-## Contact Info (used throughout the site)
+## Contact Info
 
-- Email: AvBbRetreats@gmail.com
-- Phone: (847) 877-5066
-- Website: AvBbRetreats.com
-- Location: Kankakee, Illinois — along the Kankakee River, 5 min from Amtrak
+Contact details are embedded directly in `index.html`. Search for `AvBb` to locate and update them.
