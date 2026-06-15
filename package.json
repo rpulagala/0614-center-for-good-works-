@@ -1,0 +1,24 @@
+{
+  "name": "0614-center-for-good-works",
+  "version": "1.0.0",
+  "description": "Static single-page website for the Center for Good Works retreat and event space in Kankakee, Illinois.",
+  "main": "check-mobile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpulagala/0614-center-for-good-works-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rpulagala/0614-center-for-good-works-/issues"
+  },
+  "homepage": "https://github.com/rpulagala/0614-center-for-good-works-#readme",
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}
